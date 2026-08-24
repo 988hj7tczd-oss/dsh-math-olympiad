@@ -1,7 +1,7 @@
 node_modules/
 .pnpm-store/
-lib/
-dist/
+/lib/
+/dist/
 *.log
 .DS_Store
 *.tsbuildinfo

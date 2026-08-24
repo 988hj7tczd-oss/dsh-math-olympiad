@@ -36,6 +36,35 @@
   "dsh": {
     "bundle": {
       "patch": "./cordis.patch.yml"
+    },
+    "compatibility": {
+      "node": ">=22.18.0",
+      "dsh": ">=0.1.0"
+    },
+    "permissions": {
+      "summary": "竞赛数学解题技能包：纯推理求解 + 新鲜上下文 subagent 对抗验证 + 校准信心；可选 LaTeX→PDF（compile_pdf.sh）。技能注册经 skill-filesystem provider（customSkillDirs 隔离）。无网络无外部服务。",
+      "commands": [
+        "bash <pkg>/skills/dsh-math-olympiad/scripts/check_latex.sh (可选 TeX 探测)",
+        "bash <pkg>/skills/dsh-math-olympiad/scripts/compile_pdf.sh (可选 LaTeX→PDF)"
+      ],
+      "writePaths": [
+        "（LaTeX 输出目录，可选）"
+      ],
+      "externalServices": [],
+      "failureBoundaries": [
+        "无 TeX 引擎时显式跳过",
+        "对抗验证失败诚实弃权"
+      ],
+      "lifecycleEvidence": [
+        "128 assertions + 2 skipped (TeX 缺失)"
+      ]
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/988hj7tczd-oss/dsh-math-olympiad.git"
+  },
+  "engines": {
+    "node": ">=22.18.0"
   }
 }
