@@ -1,0 +1,41 @@
+{
+  "name": "dsh-math-olympiad",
+  "version": "0.1.0",
+  "description": "DSH skill bundle: competition math (IMO/Putnam/USAMO/AIME) solved with a pure-reasoning pass, an adversarial verifier in a fresh subagent context attacking concrete failure modes, and calibrated confidence output (high / medium / honest \"no confident solution\"); optional LaTeX→PDF rendering.",
+  "type": "module",
+  "main": "./lib/locator.js",
+  "types": "./lib/locator.d.ts",
+  "files": [
+    "lib",
+    "skills",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepare": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node tests/smoke.e2e.ts"
+  },
+  "keywords": [
+    "dsh",
+    "skill",
+    "math",
+    "olympiad",
+    "IMO",
+    "Putnam",
+    "proof-verification"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@deepseek-ai/cordis": "^4.0.1",
+    "@types/node": "^26.0.0",
+    "typescript": "^5.5.0"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}

@@ -1,0 +1,30 @@
+# dsh-math-olympiad bundle layer.
+#
+# Mounts the competition-math skill into a deployment by:
+#  1. `dsh-math-olympiad-locator` — resolves this package's own `skills/`
+#     directory (runs from the installed `lib/locator.js`) and publishes the
+#     `mathOlympiadSkills` service;
+#  2. `dsh-math-olympiad-skill` — an additional `@deepseek-ai/dsh-skill-filesystem`
+#     provider (distinct `providerName` so it never collides with the base row)
+#     that scans the located skills root.
+#
+# Requires the `skill` registry and the `@deepseek-ai/dsh-skill-filesystem`
+# package — i.e. `@deepseek-ai/dsh-base` must be an earlier bundle layer (it is
+# the default first bundle of every profile).
+- insert:
+    - id: dsh-math-olympiad-locator
+      name: 'dsh-math-olympiad/lib/locator.js'
+    - id: dsh-math-olympiad-skill
+      name: '@deepseek-ai/dsh-skill-filesystem'
+      inject:
+        - mathOlympiadSkills
+      config:
+        providerName: math-olympiad
+        # Isolate default roots: this provider must see only customSkillDirs
+        # (this package's skills/), or the second provider would re-discover
+        # and re-watch every project/user/bundled default root — duplicate
+        # candidates dropped with a de-dup warning plus doubled refresh cost
+        # (dsh-skill-filesystem's Config.includeDefaultRoots defaults to true).
+        includeDefaultRoots: false
+        customSkillDirs:
+          - !!js ctx.mathOlympiadSkills.skillsDir

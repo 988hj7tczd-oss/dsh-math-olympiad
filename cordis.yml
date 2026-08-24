@@ -1,0 +1,28 @@
+# dsh-math-olympiad — 开发期补丁覆盖层（scratch-plugin 风格）。
+#
+# 无需发布即可把这个技能挂进本地 DSH 运行：
+#   dsh --profile <name> --patch ./cordis.yml
+# 或把本目录（或其 src/ 行）加入某个自定义 cordis.yml。
+#
+# 与发布用 cordis.patch.yml 的唯一区别：此处用本机 checkout 的绝对路径
+# 引用源码（src/locator.ts，DSH 直接运行 TS），发布层则引用安装后的
+# 包入口（dsh-math-olympiad/lib/locator.js）。
+#
+# 前置：目标 composition 需包含 `skill` 注册表与
+# `@deepseek-ai/dsh-skill-filesystem`（即 @deepseek-ai/dsh-base 的默认行）。
+- insert:
+    - id: dsh-math-olympiad-locator
+      name: './src/locator.ts'
+    - id: dsh-math-olympiad-skill
+      name: '@deepseek-ai/dsh-skill-filesystem'
+      inject:
+        - mathOlympiadSkills
+      config:
+        providerName: math-olympiad
+        # 隔离默认根：本 provider 只扫 customSkillDirs（本包 skills/），
+        # 否则第二 provider 会把项目/用户/bundled 默认根再扫一遍、再 watch
+        # 一遍，产生重复候选去重警告与双倍目录刷新（dsh-skill-filesystem
+        # 的 includeDefaultRoots 默认 true，见其 Config 源码）。
+        includeDefaultRoots: false
+        customSkillDirs:
+          - !!js ctx.mathOlympiadSkills.skillsDir

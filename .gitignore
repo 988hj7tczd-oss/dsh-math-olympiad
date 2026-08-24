@@ -1,0 +1,10 @@
+node_modules/
+.pnpm-store/
+lib/
+dist/
+*.log
+.DS_Store
+*.tsbuildinfo
+.mount-verify/
+coverage/
+PROMPT.md
